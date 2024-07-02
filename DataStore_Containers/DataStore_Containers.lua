@@ -163,7 +163,6 @@ local function ScanBag(bagID)
 	-- The keyring has disappeared in Cataclysm, but it gets an "update" that looks like it's the backpack
 	-- If WoW says the keyring is being updated, ignore the request and wipe the keyring info
 	if bagID == enum.Keyring then
-		--print("Wiping keyring")
 		wipe(bag.items)
 		wipe(bag.links)
 		return
