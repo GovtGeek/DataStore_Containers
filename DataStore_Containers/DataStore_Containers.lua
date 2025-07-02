@@ -18,8 +18,8 @@ local DataStore, tonumber, wipe, type, time, C_Container = DataStore, tonumber, 
 local GetTime, GetInventoryItemTexture, GetInventoryItemLink, GetItemInfo = GetTime, GetInventoryItemTexture, GetInventoryItemLink, GetItemInfo
 local log = math.log
 local isRetail = (WOW_PROJECT_ID == WOW_PROJECT_MAINLINE)
-local isCata = (WOW_PROJECT_ID == WOW_PROJECT_CATACLYSM_CLASSIC)
 local isMists = LE_EXPANSION_LEVEL_CURRENT == LE_EXPANSION_MISTS_OF_PANDARIA
+local hasKeyring = LE_EXPANSION_LEVEL_CURRENT < LE_EXPANSION_CATACLYSM
 
 local enum = DataStore.Enum.ContainerIDs
 local bit64 = LibStub("LibBit64")
@@ -206,7 +206,7 @@ local function OnBagUpdate(event, bag)
 		return
 	end
 
-	if (bag == enum.Keyring and not isCata) or (bag >= 0 and bag < MIN_WARBANK_TAB) then
+	if (bag == enum.Keyring and hasKeyring) or (bag >= 0 and bag < MIN_WARBANK_TAB) then
 		ScanBag(bag)
 	end
 end
@@ -630,7 +630,7 @@ DataStore:OnPlayerLogin(function()
 	-- if not isRetail and HasKey() then
 		-- ScanBag(enum.Keyring)
 	-- end
-	if isCata then EmptyContainer(enum.Keyring) end
+	if not hasKeyring then EmptyContainer(enum.Keyring) end
 	
 	addon:ListenTo("BANKFRAME_OPENED", OnBankFrameOpened, MAIN_TAG)
 	
