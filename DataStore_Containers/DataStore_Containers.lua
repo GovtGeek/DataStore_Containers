@@ -366,14 +366,14 @@ else
 	bagTypeStrings = {
 		[1] = "Quiver",
 		[2] = "Ammo Pouch",
-		[4] = C_Item.GetItemSubClassInfo(LE_ITEM_CLASS_CONTAINER, 1), -- "Soul Bag",
-		[8] = C_Item.GetItemSubClassInfo(LE_ITEM_CLASS_CONTAINER, 7), -- "Leatherworking Bag",
-		[16] = C_Item.GetItemSubClassInfo(LE_ITEM_CLASS_CONTAINER, 8), -- "Inscription Bag",
-		[32] = C_Item.GetItemSubClassInfo(LE_ITEM_CLASS_CONTAINER, 2), -- "Herb Bag"
-		[64] = C_Item.GetItemSubClassInfo(LE_ITEM_CLASS_CONTAINER, 3), -- "Enchanting Bag",
-		[128] = C_Item.GetItemSubClassInfo(LE_ITEM_CLASS_CONTAINER, 4), -- "Engineering Bag",
-		[512] = C_Item.GetItemSubClassInfo(LE_ITEM_CLASS_CONTAINER, 5), -- "Gem Bag",
-		[1024] = C_Item.GetItemSubClassInfo(LE_ITEM_CLASS_CONTAINER, 6), -- "Mining Bag",
+		[4] = C_Item.GetItemSubClassInfo(LE_ITEM_CLASS_CONTAINER or Enum.ItemClass.Container, 1), -- "Soul Bag",
+		[8] = C_Item.GetItemSubClassInfo(LE_ITEM_CLASS_CONTAINER or Enum.ItemClass.Container, 7), -- "Leatherworking Bag",
+		[16] = C_Item.GetItemSubClassInfo(LE_ITEM_CLASS_CONTAINER or Enum.ItemClass.Container, 8), -- "Inscription Bag",
+		[32] = C_Item.GetItemSubClassInfo(LE_ITEM_CLASS_CONTAINER or Enum.ItemClass.Container, 2), -- "Herb Bag"
+		[64] = C_Item.GetItemSubClassInfo(LE_ITEM_CLASS_CONTAINER or Enum.ItemClass.Container, 3), -- "Enchanting Bag",
+		[128] = C_Item.GetItemSubClassInfo(LE_ITEM_CLASS_CONTAINER or Enum.ItemClass.Container, 4), -- "Engineering Bag",
+		[512] = C_Item.GetItemSubClassInfo(LE_ITEM_CLASS_CONTAINER or Enum.ItemClass.Container, 5), -- "Gem Bag",
+		[1024] = C_Item.GetItemSubClassInfo(LE_ITEM_CLASS_CONTAINER or Enum.ItemClass.Container, 6), -- "Mining Bag",
 	}
 end
 
