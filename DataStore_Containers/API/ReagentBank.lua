@@ -1,4 +1,4 @@
-if WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE then return end
+if LE_EXPANSION_LEVEL_CURRENT < LE_EXPANSION_WRATH_OF_THE_LICH_KING then return end
 
 --[[ 
 This file keeps track of a character's reagent bank (Retail + Wrath only)
@@ -102,6 +102,13 @@ AddonFactory:OnAddonLoaded(addonName, function()
 	thisCharacter = DataStore:GetCharacterDB("DataStore_Containers_Reagents", true)
 	thisCharacter.items = thisCharacter.items or {}
 	thisCharacter.links = thisCharacter.links or {}
+	
+	local interfaceVersion = select(4, GetBuildInfo())
+
+	-- 11.2 : Clear the reagent bank table for everyone
+	if interfaceVersion >= 110200 then
+		DataStore_Containers_Reagents = {}
+	end
 
 	local db = DataStore:GetCharacterDB("DataStore_Containers_Characters")
 	thisCharacterCooldowns = db.Cooldowns
