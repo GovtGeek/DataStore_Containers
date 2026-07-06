@@ -342,6 +342,16 @@ local bagSizes = {
 	[enum.ReagentBank] = hasReagentBank and 98,
 	[100] = 28, 	-- MainBankSlots for MoP
 }
+-- This is kind of ugly, but should allow for backwards compatibility for Classic
+if interfaceVersion >= 110200 then
+	bagSizes[enum.MainBankSlots] = 98
+	for bagID = Enum.BagIndex.CharacterBankTab_1, Enum.BagIndex.AccountBankTab_5 do
+		bagSizes[bagID] = 98
+	end
+	bagSizes[enum.VoidStorageTab1] = nil
+	bagSizes[enum.VoidStorageTab2] = nil
+	bagSizes[enum.ReagentBank] = nil
+end
 
 if isRetail then
 	bagTypeStrings = {
@@ -366,14 +376,14 @@ else
 	bagTypeStrings = {
 		[1] = "Quiver",
 		[2] = "Ammo Pouch",
-		[4] = C_Item.GetItemSubClassInfo(LE_ITEM_CLASS_CONTAINER, 1), -- "Soul Bag",
-		[8] = C_Item.GetItemSubClassInfo(LE_ITEM_CLASS_CONTAINER, 7), -- "Leatherworking Bag",
-		[16] = C_Item.GetItemSubClassInfo(LE_ITEM_CLASS_CONTAINER, 8), -- "Inscription Bag",
-		[32] = C_Item.GetItemSubClassInfo(LE_ITEM_CLASS_CONTAINER, 2), -- "Herb Bag"
-		[64] = C_Item.GetItemSubClassInfo(LE_ITEM_CLASS_CONTAINER, 3), -- "Enchanting Bag",
-		[128] = C_Item.GetItemSubClassInfo(LE_ITEM_CLASS_CONTAINER, 4), -- "Engineering Bag",
-		[512] = C_Item.GetItemSubClassInfo(LE_ITEM_CLASS_CONTAINER, 5), -- "Gem Bag",
-		[1024] = C_Item.GetItemSubClassInfo(LE_ITEM_CLASS_CONTAINER, 6), -- "Mining Bag",
+		[4] = C_Item.GetItemSubClassInfo(LE_ITEM_CLASS_CONTAINER or Enum.ItemClass.Container, 1), -- "Soul Bag",
+		[8] = C_Item.GetItemSubClassInfo(LE_ITEM_CLASS_CONTAINER or Enum.ItemClass.Container, 7), -- "Leatherworking Bag",
+		[16] = C_Item.GetItemSubClassInfo(LE_ITEM_CLASS_CONTAINER or Enum.ItemClass.Container, 8), -- "Inscription Bag",
+		[32] = C_Item.GetItemSubClassInfo(LE_ITEM_CLASS_CONTAINER or Enum.ItemClass.Container, 2), -- "Herb Bag"
+		[64] = C_Item.GetItemSubClassInfo(LE_ITEM_CLASS_CONTAINER or Enum.ItemClass.Container, 3), -- "Enchanting Bag",
+		[128] = C_Item.GetItemSubClassInfo(LE_ITEM_CLASS_CONTAINER or Enum.ItemClass.Container, 4), -- "Engineering Bag",
+		[512] = C_Item.GetItemSubClassInfo(LE_ITEM_CLASS_CONTAINER or Enum.ItemClass.Container, 5), -- "Gem Bag",
+		[1024] = C_Item.GetItemSubClassInfo(LE_ITEM_CLASS_CONTAINER or Enum.ItemClass.Container, 6), -- "Mining Bag",
 	}
 end
 
@@ -510,7 +520,7 @@ end
 
 local function _GetItemCountByID(container, searchedID)
 	local count = 0
-	if not container then return count end													
+	if not container then return count end
 	
 	for slotID, slot in pairs(container.items) do
 		local pos = _GetItemCountPosition(slot)
@@ -649,11 +659,13 @@ AddonFactory:OnPlayerLogin(function()
 		addon:ListenTo("BAG_UPDATE", OnBagUpdate)
 	end)
 
-	-- Only for Classic & BC, scan the keyring
-	-- 2024/06/20 : not for Cata either, see later what we do for Classic
-	-- if not isRetail and HasKey() then
-		-- ScanBag(enum.Keyring)
-	-- end
+	-- Wipe any bag that doesn't exist anymore
+	if not hasKeyring then EmptyContainer(-2) end  -- Use the previous enum value
+	if not hasReagentBank then EmptyContainer(enum.ReagentBank) end
+	if not hasVoidBank then
+		EmptyContainer(enum.VoidStorageTab1)
+		EmptyContainer(enum.VoidStorageTab2)
+	end
 	
 	if not hasKeyring then EmptyContainer(enum.Keyring) end		
 
