@@ -58,7 +58,7 @@ end
 local function ScanReagentBank()
 	local bagID = REAGENT_BANK
 	if not bagID then return end
-	
+
 	local bag = thisCharacter
 	wipe(bag.items)
 	wipe(bag.links)
