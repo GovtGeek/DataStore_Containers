@@ -160,7 +160,11 @@ end
 local function ScanBankSlotsInfo()
 	local char = thisCharacter
 	
-	local numSlots = NUM_BANKGENERIC_SLOTS or 98
+	local mainBankBagID = Enum.BagIndex.CharacterBankTab_1
+	if AddonFactory.isClassic then mainBankBagID = Enum.BagIndex.Bankbag end
+
+	--local numSlots = NUM_BANKGENERIC_SLOTS or 98
+	local numSlots = NUM_BANKGENERIC_SLOTS or C_Container.GetContainerNumSlots(mainBankBagID)
 	local freeSlots = C_Container.GetContainerNumFreeSlots(-1)
 	
 	if isConsolidatedBank then
@@ -422,7 +426,7 @@ end
 
 local function _GetContainerSize(character, containerID)
 	-- if it is a known static size, return it
-	if bagSizes[containerID] then return bagSizes[containerID] end
+	--if bagSizes[containerID] then return bagSizes[containerID] end
 
 	local bag = _GetContainer(character, containerID)
 	
